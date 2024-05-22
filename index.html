@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript let, var, const bo'yicha qo'llanma</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            position: relative;
+            overflow: auto;
+            margin-top: 10px;
+        }
+        code {
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>JavaScript let, var, const bo'yicha qo'llanma</h1>
+
+    <h2>1. Var</h2>
+    <p><code>var</code> o'zgaruvchi e'lon qilish uchun ishlatiladi. <code>var</code> funksion doirada (function scope) ishlaydi va bir xil doirada bir necha marta e'lon qilinishi mumkin.</p>
+    <pre id="codeBlock1">
+        <code>
+var x = 10;
+console.log(x); // 10
+
+if (true) {
+    var x = 20;
+    console.log(x); // 20
+}
+
+console.log(x); // 20
+        </code>
+        <button class="copy-button" onclick="copyCode('codeBlock1')">Copy</button>
+    </pre>
+
+    <h2>2. Let</h2>
+    <p><code>let</code> blok doirasida (block scope) ishlaydi va bir xil doirada faqat bir marta e'lon qilinishi mumkin.</p>
+    <pre id="codeBlock2">
+        <code>
+let y = 10;
+console.log(y); // 10
+
+if (true) {
+    let y = 20;
+    console.log(y); // 20
+}
+
+console.log(y); // 10
+        </code>
+        <button class="copy-button" onclick="copyCode('codeBlock2')">Copy</button>
+    </pre>
+
+    <h2>3. Const</h2>
+    <p><code>const</code> o'zgarmas o'zgaruvchi e'lon qilish uchun ishlatiladi. Qiymati e'lon qilinganidan keyin o'zgartirilishi mumkin emas. <code>const</code> ham blok doirasida (block scope) ishlaydi.</p>
+    <pre id="codeBlock3">
+        <code>
+const z = 10;
+console.log(z); // 10
+
+if (true) {
+    const z = 20;
+    console.log(z); // 20
+}
+
+console.log(z); // 10
+
+// Quyidagi kod xato beradi:
+// z = 30;
+        </code>
+        <button class="copy-button" onclick="copyCode('codeBlock3')">Copy</button>
+    </pre>
+
+    <h2>4. Let, var va const o'rtasidagi farqlar</h2>
+    <p>Quyidagi jadvalda <code>let</code>, <code>var</code> va <code>const</code> o'rtasidagi asosiy farqlar ko'rsatilgan:</p>
+    <table border="1" cellpadding="10" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Farqlar</th>
+                <th>var</th>
+                <th>let</th>
+                <th>const</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Scope (Doirasi)</td>
+                <td>Funksion</td>
+                <td>Blok</td>
+                <td>Blok</td>
+            </tr>
+            <tr>
+                <td>Re-e'lon qilish (Qayta e'lon qilish)</td>
+                <td>Ha</td>
+                <td>Yo'q</td>
+                <td>Yo'q</td>
+            </tr>
+            <tr>
+                <td>Qiymatini o'zgartirish</td>
+                <td>Ha</td>
+                <td>Ha</td>
+                <td>Yo'q</td>
+            </tr>
+            <tr>
+                <td>Oldin ishlatish</td>
+                <td>Hoisting (undefined bilan)</td>
+                <td>Hoisting (Error bilan)</td>
+                <td>Hoisting (Error bilan)</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h3>Misollar:</h3>
+    <h4>Var:</h4>
+    <pre id="codeBlock4">
+        <code>
+console.log(a); // undefined
+var a = 10;
+console.log(a); // 10
+        </code>
+        <button class="copy-button" onclick="copyCode('codeBlock4')">Copy</button>
+    </pre>
+
+    <h4>Let:</h4>
+    <pre id="codeBlock5">
+        <code>
+try {
+    console.log(b); // ReferenceError
+} catch (e) {
+    console.log(e.message); // b is not defined
+}
+let b = 20;
+console.log(b); // 20
+        </code>
+        <button class="copy-button" onclick="copyCode('codeBlock5')">Copy</button>
+    </pre>
+
+    <h4>Const:</h4>
+    <pre id="codeBlock6">
+        <code>
+try {
+    console.log(c); // ReferenceError
+} catch (e) {
+    console.log(e.message); // c is not defined
+}
+const c = 30;
+console.log(c); // 30
+
+try {
+    c = 40; // TypeError
+} catch (e) {
+    console.log(e.message); // Assignment to constant variable.
+}
+        </code>
+        <button class="copy-button" onclick="copyCode('codeBlock6')">Copy</button>
+    </pre>
+
+    <script>
+        function copyCode(id) {
+            const codeBlock = document.getElementById(id);
+            const code = codeBlock.querySelector('code').innerText;
+
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = code;
+            document.body.appendChild(tempTextArea);
+
+            tempTextArea.select();
+            document.execCommand('copy');
+
+            document.body.removeChild(tempTextArea);
+
+            alert('Kod nusxalandi!');
+        }
+    </script>
+</body>
+</html>
